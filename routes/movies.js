@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const {body, validationResult} = require('express-validator');
 const {moviesCollection} = require('../database/database')
+const axios = require('axios')
 
 /* GET movies listing. */
 router.get('/', (req, res) => {
@@ -19,15 +20,32 @@ router.get('/:movieId', (req, res) => {
 });
 
 /* POST new movie */
-router.post('/', [body('title').exists()], (req, res) => {
+router.post('/', [body('title').exists()], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array()});
     }
 
-    const newMovie = moviesCollection.insert({title: req.body.title}).write()
-    const movie = moviesCollection.getById(newMovie.id).value()
-    res.send(movie);
+    try {
+        const omdbRes = await axios.get('https://www.omdbapi.com', {
+            params: {
+                t: req.body.title,
+                apikey: process.env.OMDBAPI_KEY,
+            }
+        });
+        const foundMovie = omdbRes.data;
+        console.log(foundMovie)
+        if (foundMovie.Error) {
+            return res.status(404).send();
+        }
+
+        const newMovie = moviesCollection.insert(foundMovie).write()
+        const movie = moviesCollection.getById(newMovie.id).value()
+        res.send(movie);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send();
+    }
 });
 
 module.exports = router;
