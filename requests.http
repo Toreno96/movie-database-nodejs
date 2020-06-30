@@ -4,11 +4,11 @@ GET {{url}}/users
 ### Movies list
 GET {{url}}/movies
 
-### Movie details
+### Movie details (not found)
 GET {{url}}/movies/1
 
 ### Movie details
-GET {{url}}/movies/d8f8a2b2-ab60-46e9-a47b-8c6648985a7a
+GET {{url}}/movies/993b1537-6c19-4a6d-820a-a2e4e5fd0acb
 
 ### Add new movie
 POST {{url}}/movies
@@ -23,4 +23,66 @@ POST {{url}}/movies
 Content-Type: application/json
 
 {
+}
+
+### Comments list
+GET {{url}}/comments
+
+### Comments list filtered by movie id (movie not found)
+GET {{url}}/comments?movieId=1
+
+### Comments list filtered by movie id
+GET {{url}}/comments?movieId=993b1537-6c19-4a6d-820a-a2e4e5fd0acb
+
+### Comments list filtered by movie id (movie not found)
+GET {{url}}/comments?movieId=1&failOnInvalidMovieId=false
+
+### Comments list filtered by movie id
+GET {{url}}/comments?movieId=993b1537-6c19-4a6d-820a-a2e4e5fd0acb&failOnInvalidMovieId=false
+
+### Comments list filtered by movie id (movie not found), fail on invalid movie id
+GET {{url}}/comments?movieId=1&failOnInvalidMovieId=true
+
+### Comments list filtered by movie id, fail on invalid movie id
+GET {{url}}/comments?movieId=993b1537-6c19-4a6d-820a-a2e4e5fd0acb&failOnInvalidMovieId=true
+
+### Add new comment (invalid body: no `movieId` and `text`)
+POST {{url}}/comments
+Content-Type: application/json
+
+{
+}
+
+### Add new comment (invalid body: no `movieId` and `text`)
+POST {{url}}/comments
+Content-Type: application/json
+
+{
+}
+
+### Add new comment
+POST {{url}}/comments
+Content-Type: application/json
+
+{
+  "movieId": "993b1537-6c19-4a6d-820a-a2e4e5fd0acb",
+  "text": "Great movie, 5/7!"
+}
+
+### Add new comment
+POST {{url}}/comments
+Content-Type: application/json
+
+{
+  "movieId": "b36329db-34cc-41c6-b22f-da2dc07fe3b5",
+  "text": "meh, 2/10"
+}
+
+### Add new comment (invalid body: non-existing movieId)
+POST {{url}}/comments
+Content-Type: application/json
+
+{
+  "movieId": "2",
+  "text": "meh, 2/10"
 }

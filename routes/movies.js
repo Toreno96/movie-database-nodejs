@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const {body, validationResult} = require('express-validator');
-const {moviesCollection} = require('../database/database')
-const axios = require('axios')
+const {moviesCollection} = require('../database/database');
+const axios = require('axios');
 
 /* GET movies listing. */
 router.get('/', (req, res) => {
