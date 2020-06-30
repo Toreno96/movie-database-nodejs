@@ -9,6 +9,15 @@ router.get('/', (req, res) => {
     res.send(movies);
 });
 
+/* GET movie by id */
+router.get('/:movieId', (req, res) => {
+    const movie = moviesCollection.getById(req.params.movieId).value()
+    if (!movie) {
+        return res.status(404).send();
+    }
+    res.send(movie);
+});
+
 /* POST new movie */
 router.post('/', [body('title').exists()], (req, res) => {
     const errors = validationResult(req);

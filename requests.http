@@ -4,6 +4,12 @@ GET {{url}}/users
 ### Movies list
 GET {{url}}/movies
 
+### Movie details
+GET {{url}}/movies/1
+
+### Movie details
+GET {{url}}/movies/d8f8a2b2-ab60-46e9-a47b-8c6648985a7a
+
 ### Add new movie
 POST {{url}}/movies
 Content-Type: application/json
