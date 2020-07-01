@@ -35,7 +35,6 @@ router.post('/', [body('title').exists()], async (req, res) => {
             }
         });
         const foundMovie = omdbRes.data;
-        console.log(foundMovie)
         if (foundMovie.Error) {
             return res.status(404).send();
         }
