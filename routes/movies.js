@@ -3,6 +3,7 @@ const router = express.Router();
 const {body, validationResult} = require('express-validator');
 const {moviesCollection} = require('../database/database');
 const axios = require('axios');
+const {omdbApiKey} = require('../config')
 
 /* GET movies listing. */
 router.get('/', (req, res) => {
@@ -30,7 +31,7 @@ router.post('/', [body('title').exists()], async (req, res) => {
         const omdbRes = await axios.get('https://www.omdbapi.com', {
             params: {
                 t: req.body.title,
-                apikey: process.env.OMDBAPI_KEY,
+                apikey: omdbApiKey,
             }
         });
         const foundMovie = omdbRes.data;
